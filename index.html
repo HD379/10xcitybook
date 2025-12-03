@@ -5,6 +5,7 @@
   <title>10X City — A Book of Principles and Possibilities</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="A horizontally scrolling, book-like experience exploring the principles and lived experience of a 10X city.">
+
   <style>
     :root {
       --bg: #f4f1ec;
@@ -13,17 +14,13 @@
       --muted: #6b6f77;
       --accent: #c79a52;
       --border-soft: #ded8cf;
-      --shadow-page: 0 18px 40px rgba(0, 0, 0, 0.12);
+      --shadow-page: 0 18px 40px rgba(0,0,0,0.12);
       --page-width: min(880px, 90vw);
       --page-height: min(600px, 78vh);
       --radius: 14px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       margin: 0;
@@ -31,13 +28,10 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
-      overflow: hidden; /* prevent vertical scroll on tablets */
+      overflow: hidden;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; cursor: pointer; }
 
     .shell {
       display: flex;
@@ -47,27 +41,22 @@
       gap: 0.5rem;
     }
 
-    /* Top bar */
+    /* TOP BAR */
 
     .top-bar {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       font-size: 0.8rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--muted);
     }
 
-    .top-bar-left {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-    }
+    .top-bar-left { display: flex; gap: 0.75rem; align-items: center; }
 
     .dot {
-      width: 6px;
-      height: 6px;
+      width: 6px; height: 6px;
       border-radius: 50%;
       background-color: var(--accent);
     }
@@ -78,11 +67,9 @@
       font-size: 0.78rem;
     }
 
-    .top-bar-right span.current-part {
-      color: var(--accent);
-    }
+    .top-bar-right span.current-part { color: var(--accent); }
 
-    /* Book container */
+    /* BOOK (horizontal scroll) */
 
     .book {
       flex: 1;
@@ -100,39 +87,24 @@
       flex: 0 0 auto;
       width: var(--page-width);
       min-height: var(--page-height);
-      height: auto;
-      background-color: var(--bg-page);
+      padding: 1.6rem 1.7rem;
+      background: var(--bg-page);
       border-radius: var(--radius);
       box-shadow: var(--shadow-page);
-      padding: 1.6rem 1.7rem;
-      border: 1px solid rgba(0, 0, 0, 0.02);
+      border: 1px solid rgba(0,0,0,0.02);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
     }
 
-    .page::before {
-      /* subtle page edge gradient on the right */
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 24px;
-      height: 100%;
-      border-radius: 0 var(--radius) var(--radius) 0;
-      background: linear-gradient(to left, rgba(0, 0, 0, 0.06), transparent);
-      opacity: 0.1;
-      pointer-events: none;
+    .page-inner {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
     }
-
- .page-inner {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1.4rem;
-}
 
     .page-header {
       font-size: 0.85rem;
@@ -144,8 +116,6 @@
     .page-title {
       font-size: 1.25rem;
       font-weight: 500;
-      margin-top: 0.25rem;
-      margin-bottom: 0.4rem;
     }
 
     .page-subtitle {
@@ -155,19 +125,12 @@
     }
 
     .page-body {
-      flex: 1;
       font-size: 0.95rem;
-      color: var(--text);
       max-width: 32rem;
     }
 
-    .page-body p {
-      margin-bottom: 0.6rem;
-    }
-
-    .page-body p:last-child {
-      margin-bottom: 0;
-    }
+    .page-body p { margin-bottom: 0.6rem; }
+    .page-body p:last-child { margin-bottom: 0; }
 
     .page-footer {
       font-size: 0.78rem;
@@ -177,499 +140,294 @@
       align-items: center;
     }
 
-    .page-index {
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .page-hint {
-      font-size: 0.76rem;
-      color: var(--muted);
-    }
-
-    /* Video pages */
-
-    .page-video {
-      justify-content: flex-start;
-    }
-
-    .page-video .page-body {
-      max-width: none;
-    }
+    /* VIDEO */
+    .page-video .page-body { max-width: none; }
 
     .video-frame {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 aspect ratio */
-  border-radius: 10px;
-  overflow: hidden;
-  border: 1px solid var(--border-soft);
-  background-color: #000;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
-}
-
-.video-frame video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* or "contain" if you prefer full visibility */
-  background: #000;
-}
-
-    .video-caption {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-top: 0.5rem;
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+      border: 1px solid var(--border-soft);
     }
 
-    /* Small nav cheat */
-    .book-nav {
-      font-size: 0.78rem;
-      color: var(--muted);
-      text-align: right;
-      padding-right: 0.6rem;
-    }
-
-    .book-nav span {
-      opacity: 0.7;
-    }
-
-    .book-nav strong {
-      color: var(--accent);
-      opacity: 1;
-      font-weight: 500;
+    .video-frame video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
     }
 
     @media (max-width: 900px) {
-      body {
-        overflow: auto;
-      }
-
-      .shell {
-        padding: 0.5rem;
-      }
-
-      .book {
-        padding-bottom: 0.6rem;
-      }
-
-      .page {
-        width: 92vw;
-        height: auto;
-        min-height: 72vh;
-      }
-
-      .page::before {
-        display: none;
-      }
-
-      .page-footer {
-        margin-top: 0.4rem;
-      }
+      body { overflow: auto; }
+      .shell { padding: 0.4rem; }
+      .page { width: 92vw; min-height: 70vh; }
     }
-
   </style>
 </head>
+
 <body>
 
 <div class="shell">
 
+  <!-- TOP BAR WITH SWIPE BUTTON -->
   <div class="top-bar">
     <div class="top-bar-left">
       <span class="dot"></span>
       <span>10X City • A Book of Principles and Possibilities</span>
     </div>
+
     <div class="top-bar-right">
-      <span class="current-part" id="current-part-label">Part I</span>
-      <span>Swipe ➝</span>
+      <span id="current-part-label">Part I</span>
+      <span id="swipe-btn">Swipe ➝</span>
     </div>
   </div>
 
+  <!-- BOOK -->
   <div class="book" id="book">
+
     <!-- PAGE 1: COVER -->
-    <section class="page" data-part="Part I">
+    <section class="page" id="page1" data-part="Part I">
       <div class="page-inner">
         <div>
           <div class="page-header">10X City</div>
           <div class="page-title">A Book of Principles and Possibilities</div>
           <div class="page-subtitle">
-            A city is a nervous system, not a collection of buildings. This book-like experience explores
-            what a 10X city could feel like — and the principles that quietly shape it.
+            A city is a nervous system, not a collection of buildings.
           </div>
         </div>
         <div class="page-body">
-          <p>
-            This is not a masterplan. It is a set of patterns, a series of lenses. It asks:
-          </p>
-          <p>
-            What if a city were designed first for nervous systems, then for everything else? What would it
-            mean for a guest to feel ten times more welcomed, a resident ten times more grounded, a family
-            ten times more supported, and a visitor ten times more likely to return?
-          </p>
-          <p>
-            We begin with principles, then move into a walk-through of a living 10X city.
-          </p>
+          <p>This book explores what a 10X city could feel like.</p>
         </div>
         <div class="page-footer">
-          <span class="page-index">1 · Cover</span>
-          <span class="page-hint">Swipe right to turn the page</span>
+          <span>1 · Cover</span>
+          <span>Swipe right to continue</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 2: GOAL -->
-    <section class="page" data-part="Part I">
+    <!-- PAGE 2 -->
+    <section class="page" id="page2" data-part="Part I">
       <div class="page-inner">
         <div>
           <div class="page-header">Part I · Principles</div>
           <div class="page-title">The Goal of a 10X City</div>
-          <div class="page-subtitle">
-            Measuring success not by skyline, but by the felt experience of those who move through it.
-          </div>
+          <div class="page-subtitle">Measured by lived experience, not skyline.</div>
         </div>
+
         <div class="page-body">
-          <p>
-            A 10X city is defined by one core question: <em>How efficiently can this place convert energy
-            (time, money, attention, natural resources) into sustainable well-being for the people who touch it?</em>
-          </p>
-          <p>
-            In a 1X city, people survive and hustle. The city extracts attention and gives back fatigue.
-            In a 10X city, the same unit of effort yields ten times more:
-          </p>
-          <p>
-            Ten times more ease in moving around. 
-            Ten times more emotional safety in public spaces. 
-            Ten times more meaningful interactions in a week. 
-            Ten times more moments of gratitude than of dread.
-          </p>
+          <p>A 10X city converts human energy into well-being.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">2 · Goal</span>
-          <span class="page-hint">Principles begin on the next pages</span>
+          <span>2 · Goal</span>
+          <span>Principles ahead</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 3: PRINCIPLE 1 -->
+    <!-- PAGE 3 -->
     <section class="page" data-part="Part I">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Principle 1</div>
-          <div class="page-title">The Nervous System Comes First</div>
-          <div class="page-subtitle">
-            Every design choice is tested against one question: does this regulate or dysregulate the body?
-          </div>
-        </div>
+        <div class="page-header">Principle 1</div>
+        <div class="page-title">The Nervous System Comes First</div>
+        <div class="page-subtitle">Design for regulation, not exhaustion.</div>
+
         <div class="page-body">
-          <p>
-            Most cities are visually impressive and emotionally exhausting. A 10X city reverses this:
-            it is emotionally nourishing first, impressive second.
-          </p>
-          <p>
-            Street noise, light levels, signage, crowd flow, waiting time, seating, shade, green space —
-            all are tuned for nervous system relief. People find that their heart rate slows down
-            simply by walking from the airport to the street.
-          </p>
-          <p>
-            This isn’t “spa city.” It is a place where baseline stress drops enough that people
-            can think clearly, love fully, and build without burning out.
-          </p>
+          <p>Most cities are impressive but stressful. A 10X city reverses that.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">3 · Principle 1</span>
-          <span class="page-hint">Swipe to continue</span>
+          <span>3 · Principle 1</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 4: PRINCIPLE 2 -->
+    <!-- PAGE 4 -->
     <section class="page" data-part="Part I">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Principle 2</div>
-          <div class="page-title">Hospitality as a Default State</div>
-          <div class="page-subtitle">
-            Everyone is treated as an honored guest — not as throughput, not as a problem to process.
-          </div>
-        </div>
+        <div class="page-header">Principle 2</div>
+        <div class="page-title">Hospitality as Default</div>
+        <div class="page-subtitle">People are treated as honored guests.</div>
+
         <div class="page-body">
-          <p>
-            In a 10X city, “five-star” is no longer about marble. It is about attunement.
-            Staff are trained not just to smile, but to read subtle signals:
-            tension in the shoulders, a restless gaze, the way someone exhales.
-          </p>
-          <p>
-            The city itself becomes a host. Arrivals are not confused and shouted at,
-            but gently guided. A person can land from a 14-hour flight and feel welcomed
-            within five minutes — genuinely, not theatrically.
-          </p>
-          <p>
-            Hospitality becomes a practiced civic art, not a marketing slogan.
-          </p>
+          <p>Hospitable cities reduce anxiety and increase trust.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">4 · Principle 2</span>
-          <span class="page-hint">Built into hotels, streets, and systems</span>
+          <span>4 · Principle 2</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 5: PRINCIPLE 3 -->
+    <!-- PAGE 5 -->
     <section class="page" data-part="Part I">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Principle 3</div>
-          <div class="page-title">Measure What Matters</div>
-          <div class="page-subtitle">
-            The city tracks what people actually feel, not just what they spend.
-          </div>
-        </div>
+        <div class="page-header">Principle 3</div>
+        <div class="page-title">Measure What Matters</div>
+        <div class="page-subtitle">Track real feelings, not just transactions.</div>
+
         <div class="page-body">
-          <p>
-            A 10X city uses a confidential, opt-in LifeOS app to measure:
-            safety, calm, joy, pain, belonging, meaning, and recovery.
-          </p>
-          <p>
-            It learns that a certain park layout reduces anxiety, that a certain
-            intersection design increases frustration, that a particular microculture
-            produces extraordinary levels of trust.
-          </p>
-          <p>
-            Policy becomes a feedback loop, not a guess. Data stops being abstract
-            when it reflects real tears, real laughter, and real nights of sleep.
-          </p>
+          <p>A 10X city uses well-being data as feedback, not control.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">5 · Principle 3</span>
-          <span class="page-hint">Data as a servant, not a master</span>
+          <span>5 · Principle 3</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 6: PRINCIPLE 4 VIDEO -->
+    <!-- PAGE 6: PRINCIPLE 4 text intro -->
+    <section class="page" data-part="Part I">
+      <div class="page-inner">
+        <div class="page-header">Principle 4</div>
+        <div class="page-title">Microcultures as a City's Heart</div>
+        <div class="page-subtitle">Many ways of living, each coherent.</div>
+
+        <div class="page-body">
+          <p>Microcultures allow people to live in attuned communities.</p>
+        </div>
+
+        <div class="page-footer">
+          <span>6 · Principle 4</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 7: MICROculture VIDEO -->
     <section class="page page-video" data-part="Part I">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Principle 4</div>
-          <div class="page-title">Microcultures as a City’s Heart</div>
-          <div class="page-subtitle">
-            Instead of one dominant culture, the city hosts many small, coherent ways of living.
-          </div>
-        </div>
-        <div class="page-body">
-          <p>
-            A 10X city does not ask everyone to live the same way. It offers many
-            microcultures — each about 150 people — where different values,
-            rhythms, and lifestyles can be tested, documented, and refined.
-          </p>
-          <p>
-            Below is a short film walking through one such microculture.
-          </p>
+        <div class="page-header">Principle 4 · Video</div>
+        <div class="page-title">Microculture Walkthrough</div>
 
+        <div class="page-body">
           <div class="video-frame">
-            <!-- REPLACE src WITH YOUR VIDEO FILE -->
-            <video controls poster="media/microculture-poster.jpg">
+            <video controls>
               <source src="media/microculture-tour.mp4" type="video/mp4">
-              Your browser does not support the video tag.
             </video>
           </div>
-          <div class="video-caption">
-            Suggested video: a 60–90 second walkthrough of a microculture:
-            paths, shared kitchens, quiet corners, small public rituals.
-          </div>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">6 · Principle 4</span>
-          <span class="page-hint">Video page — tap to play, swipe to turn</span>
+          <span>7 · Microculture Video</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 7: TRANSITION TO PART II -->
+    <!-- PAGE 8: TRANSITION -->
     <section class="page" data-part="Part II">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Transition</div>
-          <div class="page-title">From Principles to Streets</div>
-          <div class="page-subtitle">
-            Now we take a walk. One day in a 10X city: arriving, breathing, moving through it.
-          </div>
-        </div>
+        <div class="page-header">Transition</div>
+        <div class="page-title">From Principles to Streets</div>
+
         <div class="page-body">
-          <p>
-            The rest of this book is a guided experience. You arrive as a stranger,
-            you move through the city, and you leave changed — not because of slogans,
-            but because of a thousand small, attuned decisions.
-          </p>
-          <p>
-            Imagine you have just landed. You are tired, carrying your own history
-            and stress. The question is simple: does this city add to that weight, or help you set it down?
-          </p>
+          <p>Now we walk through a 10X city.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">7 · Part II</span>
-          <span class="page-hint">Part II · A Walk Through a 10X City</span>
+          <span>8 · Transition</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 8: ARRIVAL -->
+    <!-- PAGE 9: ARRIVAL -->
     <section class="page" data-part="Part II">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Part II · Arrival</div>
-          <div class="page-title">The First 20 Minutes</div>
-          <div class="page-subtitle">
-            What happens from the moment your plane’s door opens to the moment you see the sky.
-          </div>
-        </div>
+        <div class="page-header">Arrival</div>
+        <div class="page-title">The First 20 Minutes</div>
+
         <div class="page-body">
-          <p>
-            In a 10X city, the first 20 minutes matter more than the first marketing campaign.
-            You are greeted, not herded. There is a quiet place to sit, not a shouting contest.
-            Someone helps you install a LifeOS that will make your stay easier.
-          </p>
-          <p>
-            Immigration is smooth, not because of speed alone, but because you aren’t
-            treated like a threat. Your nervous system gets a simple message:
-            “You’re safe here.” That message is priceless.
-          </p>
+          <p>A calm arrival tells the body: you're safe.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">8 · Arrival</span>
-          <span class="page-hint">This is where hospitality becomes infrastructure</span>
+          <span>9 · Arrival</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 9: 10X HOTEL -->
+    <!-- PAGE 10: HOTEL TEXT -->
+    <section class="page" data-part="Part II">
+      <div class="page-inner">
+        <div class="page-header">Stay</div>
+        <div class="page-title">Inside a 10X Hotel</div>
+
+        <div class="page-body">
+          <p>The hotel is a nervous-system sanctuary.</p>
+        </div>
+
+        <div class="page-footer">
+          <span>10 · Hotel</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAGE 11: HOTEL VIDEO -->
     <section class="page page-video" data-part="Part II">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Part II · Stay</div>
-          <div class="page-title">Inside a 10X Hotel</div>
-          <div class="page-subtitle">
-            One compound, designed as proof: a hotel that feels like a nervous-system sanctuary.
-          </div>
-        </div>
+        <div class="page-header">Stay · Video</div>
+        <div class="page-title">Hotel Walkthrough</div>
+
         <div class="page-body">
-          <p>
-            This hotel is quiet without being dead, alive without being frantic. Staff
-            are trained to notice, not to push. The architecture protects you from noise,
-            glare, and confusion. Your room feels like somewhere you can actually exhale.
-          </p>
           <div class="video-frame">
-            <!-- REPLACE src WITH YOUR VIDEO FILE -->
-            <video controls poster="media/hotel-poster.jpg">
+            <video controls>
               <source src="media/10x-hotel-tour.mp4" type="video/mp4">
-              Your browser does not support the video tag.
             </video>
           </div>
-          <div class="video-caption">
-            Suggested video: a 60–120 second guided walkthrough of the 10X hotel:
-            arrival, lobby, room, a single moment of attuned service.
-          </div>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">9 · Hotel</span>
-          <span class="page-hint">This is where theory meets one real place</span>
+          <span>11 · Hotel Video</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 10: DAILY LIFE -->
+    <!-- PAGE 12: DAILY LIFE -->
     <section class="page" data-part="Part II">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Part II · Daily Life</div>
-          <div class="page-title">What It Feels Like After a Week</div>
-          <div class="page-subtitle">
-            The deepest proof of a city is how you feel after seven days with no performance.
-          </div>
-        </div>
+        <div class="page-header">Daily Life</div>
+        <div class="page-title">After a Week</div>
+
         <div class="page-body">
-          <p>
-            In a 10X city, after a week you notice something strange: you are not dreading
-            going back home. You’ve still had frustrations, but they didn’t own you.
-            You slept better, walked more, and felt less assaulted by noise.
-          </p>
-          <p>
-            You remember small moments: a stranger who walked you to the right stop;
-            a staff member who sat with you for two minutes when you were clearly overwhelmed;
-            a public bench that was actually comfortable.
-          </p>
-          <p>
-            The city has not become your parent. It has simply stopped behaving like a careless one.
-          </p>
+          <p>After a week, the city feels like support, not strain.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">10 · Week</span>
-          <span class="page-hint">From here, implementation and metrics</span>
+          <span>12 · Week</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 11: IMPLEMENTATION SKETCH -->
+    <!-- PAGE 13: IMPLEMENTATION -->
     <section class="page" data-part="Part II">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Implementation</div>
-          <div class="page-title">Layers Required to Build a 10X City</div>
-          <div class="page-subtitle">
-            Not a masterplan, but a scaffold: what must exist behind the scenes.
-          </div>
-        </div>
+        <div class="page-header">Implementation</div>
+        <div class="page-title">Layers Required</div>
+
         <div class="page-body">
-          <p>
-            A 10X city needs:
-          </p>
-          <p>
-            · One Living Hotel: a germinal proof-of-concept for 10X hospitality.<br>
-            · Microcultures: a set of experimental neighborhoods, each tracked for well-being.<br>
-            · A LifeOS App: measuring, adjusting, and gently guiding daily choices.<br>
-            · Training: a new hospitality curriculum focused on nervous systems.<br>
-            · Governance Hooks: feedback loops into planning and policy.
-          </p>
-          <p>
-            The rest is iteration.
-          </p>
+          <p>Living hotel, microcultures, LifeOS, training, governance loops.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">11 · Layers</span>
-          <span class="page-hint">A book is an invitation, not a blueprint</span>
+          <span>13 · Layers</span>
         </div>
       </div>
     </section>
 
-    <!-- PAGE 12: CLOSING -->
+    <!-- PAGE 14: END -->
     <section class="page" data-part="Part II">
       <div class="page-inner">
-        <div>
-          <div class="page-header">Closing</div>
-          <div class="page-title">One City as a Gift</div>
-          <div class="page-subtitle">
-            Every city on Earth could copy the forms. Few can copy the attention.
-          </div>
-        </div>
+        <div class="page-header">Closing</div>
+        <div class="page-title">One City as a Gift</div>
+
         <div class="page-body">
-          <p>
-            A 10X city is not perfect. It simply cares.
-          </p>
-          <p>
-            It cares enough to measure, to adjust, to train, to redesign. It cares enough
-            to be honest when something isn’t working. It cares enough to treat one hotel,
-            one street, one microculture as the beginning of a new standard.
-          </p>
-          <p>
-            If even one city on Earth were allowed to grow from this level of attention,
-            the rest would have no excuse. This is what this book is for.
-          </p>
+          <p>A 10X city simply cares.</p>
         </div>
+
         <div class="page-footer">
-          <span class="page-index">12 · End</span>
-          <span class="page-hint">Swipe back to revisit any page</span>
+          <span>14 · End</span>
         </div>
       </div>
     </section>
@@ -677,46 +435,45 @@
   </div>
 
   <div class="book-nav">
-    <span>Pages <strong>1–12</strong> · Horizontal scroll / swipe</span>
+    <span>Pages <strong>1–14</strong> · Horizontal scroll / swipe</span>
   </div>
 
 </div>
 
 <script>
-  // Simple script to update the "Part I / Part II" label based on scroll position
-  const book = document.getElementById('book');
-  const pages = Array.from(book.querySelectorAll('.page'));
-  const partLabel = document.getElementById('current-part-label');
+  const book = document.getElementById("book");
+  const pages = Array.from(book.querySelectorAll(".page"));
+  const partLabel = document.getElementById("current-part-label");
 
   function updatePartLabel() {
     let center = book.scrollLeft + book.clientWidth / 2;
     let current = pages[0];
-    let currentDistance = Infinity;
+    let best = Infinity;
 
-    pages.forEach(page => {
-      const rectLeft = page.offsetLeft;
-      const rectCenter = rectLeft + page.offsetWidth / 2;
-      const distance = Math.abs(rectCenter - center);
-      if (distance < currentDistance) {
-        currentDistance = distance;
-        current = page;
-      }
+    pages.forEach(p => {
+      let c = p.offsetLeft + p.offsetWidth / 2;
+      let d = Math.abs(c - center);
+      if (d < best) { best = d; current = p; }
     });
 
-    const part = current.getAttribute('data-part') || 'Part I';
-    partLabel.textContent = part;
+    partLabel.textContent = current.getAttribute("data-part");
   }
 
-  book.addEventListener('scroll', () => {
-    window.requestAnimationFrame(updatePartLabel);
+  book.addEventListener("scroll", () => {
+    requestAnimationFrame(updatePartLabel);
   });
 
-  // Initial label
-  window.addEventListener('load', updatePartLabel);
+  window.addEventListener("load", updatePartLabel);
+
+  // SWIPE BUTTON scrolls to page 2
+  document.getElementById("swipe-btn").addEventListener("click", () => {
+    const page2 = document.getElementById("page2");
+    book.scrollTo({
+      left: page2.offsetLeft,
+      behavior: "smooth"
+    });
+  });
 </script>
 
 </body>
-
 </html>
-
-
