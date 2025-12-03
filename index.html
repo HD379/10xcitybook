@@ -197,21 +197,27 @@
       max-width: none;
     }
 
-    .video-frame {
-      margin-top: 1rem;
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid var(--border-soft);
-      background-color: #000;
-      position: relative;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
-    }
+ /* Video pages */
 
-    .video-frame video {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
+.video-frame {
+  margin-top: 1rem;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border-soft);
+  background-color: #000;
+  position: relative;
+  height: 75px;          /* fixed small height */
+  max-height: 75px;
+  width: 140px;          /* small container width */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.video-frame video {
+  display: block;
+  height: 75px;          /* fixed video height */
+  width: auto;           /* auto width keeps aspect ratio */
+}
+
 
     .video-caption {
       font-size: 0.8rem;
@@ -712,3 +718,4 @@
 
 </body>
 </html>
+
